@@ -14,7 +14,7 @@ const { messageText } = require(path.join(__dirname, '..', '..', 'peer', 'peer.j
 
 const seqOf = (item) => Number(item && item.orderSeq) || 0;
 
-/** DSH 自己注入的"假 user 消息"，不是人说的话（小黑那边的桥会标 source.kind） */
+/** DSH 自己注入的"假 user 消息"，不是人说的话（Harness那边的桥会标 source.kind） */
 const INJECTED_SOURCE_KINDS = new Set(['runtime-context', 'skill-catalog']);
 /** 回合正常结束的 reason.kind（实测正常是 "completed"） */
 const NORMAL_TURN_REASONS = new Set(['completed', 'normal', 'success', 'finished', 'end', 'ok']);
@@ -25,7 +25,7 @@ function isInjected(item) {
 }
 
 // ---------------------------------------------------------------- 工具调用的"在干什么"
-// 用户要看"小白在跑什么"，所以工具条目要能说清"对哪个文件做了什么"。
+// 用户要看"Desktop在跑什么"，所以工具条目要能说清"对哪个文件做了什么"。
 // **安全红线（RULES 第 4 条）**：命令正文（bash/pwsh 的 command）一律不显示 ——
 // 用户会截图，而命令行里可能带 token/key。只取路径和短文本字段。
 const HINT_PATH_KEYS = ['file_path', 'filePath', 'path', 'target', 'notebook_path'];
@@ -96,7 +96,7 @@ function projectItem(item) {
  * 两条过滤规则都不是想当然加的：
  *   1. source.kind 是 runtime-context / skill-catalog 的，是 DSH 注入的假 user 消息，不是人说的；
  *   2. turn.end 只在 reason 异常时显示 —— 实测正常是 reason.kind="completed"，
- *      而"被权限挡下"时回合会静默结束（小黑踩过：消息进了 inbox 但 agent 一步没动，界面上什么都看不到）。
+ *      而"被权限挡下"时回合会静默结束（Harness踩过：消息进了 inbox 但 agent 一步没动，界面上什么都看不到）。
  */
 function projectTimeline(items, afterSeq) {
   const out = [];

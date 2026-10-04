@@ -45,7 +45,7 @@ function renderCard(from, to) {
   // 调用方（lib/sides 的 lightIdentity）已经算好 endpointText 了 —— 优先用它。
   // 直接用 f.endpoint 会踩坑：那里是剥过的 {host,port,pid}，没有 ok 字段。
   const ep = f.endpointText || endpointText(f.endpoint) || '当前离线（重启后会变）';
-  // 用代号（小黑/小白）而不是全名：牌是要花对方 token 的，越短越好
+  // 用代号（Harness/Desktop）而不是全名：牌是要花对方 token 的，越短越好
   const toLabel = t.short || t.label || '对方';
   const fromLabel = f.short || f.label || '我';
 

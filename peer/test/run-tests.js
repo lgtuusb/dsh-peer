@@ -104,7 +104,7 @@ function realishOptions(extra) {
         {
           sessionId: 'sess_<id>',
           externalSessionId: REAL_EXT,
-          title: '两个agent协作贪吃蛇分工',
+          title: '两个agent协作(早期试验项目)分工',
           cwd: '%WORKSPACE_B%',
           orderingTime: 1,
           metadata: { live: true, persisted: true, readOnly: false }
@@ -580,7 +580,7 @@ async function main() {
   );
 
   // 对端**重启**：连接被掐断 + endpoint.json 短暂消失（ENOENT）+ 换 token。
-  // 这正是小黑改插件后重启 App 的真实形态 —— 等待必须熬过去。
+  // 这正是Harness改插件后重启 App 的真实形态 —— 等待必须熬过去。
   {
     let epForRestart = null;
     await withMock(

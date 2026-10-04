@@ -22,7 +22,7 @@ powershell -ExecutionPolicy Bypass -File build.ps1
 
 ### 1) `ELECTRON_RUN_AS_NODE=1` 会让 electron.exe 变成纯 Node
 
-DSH 为了跑自己的 CLI 会在环境里设这个变量，而我们（小黑/小白）的 shell 都是 DSH 的子进程，
+DSH 为了跑自己的 CLI 会在环境里设这个变量，而我们（Harness/Desktop）的 shell 都是 DSH 的子进程，
 **继承了这个变量**。后果：`electron.exe` 以 Node 身份启动 → `require('electron')` 拿到 undefined
 → `app.requestSingleInstanceLock()` 报 "Cannot read properties of undefined"。
 

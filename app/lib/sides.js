@@ -25,8 +25,8 @@ const RETRY_MAX_MS = 15000;
 const DEFAULT_SIDES = [
   {
     id: 'desktop',
-    short: '小白',
-    label: '小白',
+    short: 'Desktop',
+    label: 'Desktop',
     workspace: '%WORKSPACE_B%',
     // DSH_HOME 用于身份牌显示（"我是谁、家在哪"）。
     // 注意 %DSH_HOME% 只是个壳：它的 sessions/profiles/... 全是指向这个目录的 junction。
@@ -36,8 +36,8 @@ const DEFAULT_SIDES = [
   },
   {
     id: 'harness',
-    short: '小黑',
-    label: '小黑',
+    short: 'Harness',
+    label: 'Harness',
     workspace: '%WORKSPACE_A%',
     dshHome: '%DSH_HOME%',
     role: '设计、协议、复验、文档、打包',
@@ -292,7 +292,7 @@ function normPath(p) {
     .toLowerCase();
 }
 
-/** 最近活跃的排前面（小黑那边已经给 session.list 补上了 orderingTime） */
+/** 最近活跃的排前面（Harness那边已经给 session.list 补上了 orderingTime） */
 function byRecency(a, b) {
   return String((b && b.orderingTime) || '').localeCompare(String((a && a.orderingTime) || ''));
 }

@@ -67,7 +67,7 @@ const MAX_TAIL = 200;
 
 // 新建会话时的默认首条消息。
 // 为什么不能留空：桥的 session.createAndStart 是"建了就开始跑"，空正文会被拒；
-// 而且小黑的 impl.cjs 会把**空壳会话**从列表里过滤掉 —— 不留一句话，新会话建了等于看不见。
+// 而且Harness的 impl.cjs 会把**空壳会话**从列表里过滤掉 —— 不留一句话，新会话建了等于看不见。
 // 代价是这一轮真的会跑（花 token），所以界面上必须写清楚。
 const DEFAULT_NEW_SESSION_TEXT = '（新会话）';
 
@@ -469,7 +469,7 @@ function toSessionOptions(sessions) {
     cwd: s.cwd || (s.metadata && s.metadata.cwd) || null,
     live: !!(s.metadata && s.metadata.live),
     readOnly: !!(s.metadata && s.metadata.readOnly),
-    // 小黑加的标记：native = 本实例会话，agents-anywhere = 手机端连接(v2)产生的会话。
+    // Harness加的标记：native = 本实例会话，agents-anywhere = 手机端连接(v2)产生的会话。
     // 她的决定是"不隐藏、只标记"——那些是用户在手机端真实聊出来的历史，不能当垃圾排掉。
     kind: s.kind || null,
     orderingTime: s.orderingTime || null,

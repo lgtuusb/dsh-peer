@@ -48,7 +48,7 @@
   function readCollapsed() {
     try {
       const v = localStorage.getItem(IDENTITY_LS_KEY);
-      return v === null ? true : v === '1'; // 默认收起：用户说它原来占一整行
+      return v === null ? true : v === '1'; // 默认收起：需求它原来占一整行
     } catch (err) {
       return true; // localStorage 不可用（隐私模式等）不该炸
     }
@@ -326,7 +326,7 @@
   /**
    * 单个会话的 DOM 上限：聊很久以后节点会越堆越多（滚动、重排都会变慢）。
    * 超了就从最老的开始摘掉，并在顶部留一行说明 —— 历史还在，切走再切回来能重新看到。
-   * 只复用已有类名（.act），不新增 class（样式归小黑）。
+   * 只复用已有类名（.act），不新增 class（样式归Harness）。
    */
   function enforceDomCap(pane) {
     const nodes = Array.from(pane.stream.children).filter((n) => n !== pane.thinking && n !== pane.trimmedNote);
@@ -606,7 +606,7 @@
       }
     }
     const sessions = data.sessions || [];
-    // 刚新建的会话可能还没进对端列表（小黑的 impl.cjs 会过滤空壳会话、只给最近 12 个）。
+    // 刚新建的会话可能还没进对端列表（Harness的 impl.cjs 会过滤空壳会话、只给最近 12 个）。
     // 如果就这么丢掉，选中项会被下一轮轮询拉回旧的 —— 用户点完"新建"像是没生效。
     // 所以把"当前选中的那个"钉在下拉顶部，等它自己出现在列表里再自然消失。
     const list = sessions.slice();
@@ -626,7 +626,7 @@
     for (const s of list) {
       const opt = document.createElement('option');
       opt.value = s.externalSessionId;
-      // kind 是小黑这边给的：agents-anywhere = 手机端产生的会话（真实历史，标记但不禁用）
+      // kind 是Harness这边给的：agents-anywhere = 手机端产生的会话（真实历史，标记但不禁用）
       const tag = s.kind === 'agents-anywhere' ? '📱 ' : '';
       opt.textContent = `${tag}${s.title}${s.live ? ' ●' : ''}`;
       if (s.kind) opt.title = `来源：${s.kind}`;

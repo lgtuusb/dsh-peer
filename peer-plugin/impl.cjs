@@ -21,7 +21,7 @@ const DSH_HOME = process.env.DSH_HOME || join(homedir(), '.dsh')
 // 独立的端点文件：**不跟 DSH 自带的官方桥抢 endpoint.json**。
 // 官方桥不支持新建会话/会话元数据，一旦它抢赢了端点，客户端就点不动"新建"。
 // 所以本插件的端点评到 endpoint.peer.json，客户端读这个文件。
-// （2026-10-02 踩坑：小白那侧新建会话 502，根因就是官方桥占着 endpoint.json）
+// （2026-10-02 踩坑：Desktop那侧新建会话 502，根因就是官方桥占着 endpoint.json）
 const ENDPOINT_PATH = join(DSH_HOME, 'agents-anywhere', 'bridge', 'endpoint.peer.json')
 // 兼容：老客户端还在读 endpoint.json，所以两个都写（peer 是权威，json 是兼容）
 const ENDPOINT_COMPAT_PATH = join(DSH_HOME, 'agents-anywhere', 'bridge', 'endpoint.json')

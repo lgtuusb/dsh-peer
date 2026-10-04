@@ -303,7 +303,7 @@ async function main() {
       ok('收起状态记在 localStorage', appJs.includes('dsh-pair.identity.collapsed'));
       ok('有任务检测行（状态/步数/在干什么/多久）',
         appJs.includes('renderActivity') && appJs.includes('notifyFinished') && appJs.includes('runningSince'));
-      // 身份牌条的样式只准用 dp- 前缀，且只引用 style.css 已有的变量（style.css 归小黑）
+      // 身份牌条的样式只准用 dp- 前缀，且只引用 style.css 已有的变量（style.css 归Harness）
       const dpStyle = (html.match(/<style>([\s\S]*?)<\/style>/) || [])[1] || '';
       ok('身份牌样式只用自己的 dp- 前缀', dpStyle.includes('.dp-card') && !/\.pane|\.stream|\.composer/.test(dpStyle));
     }
@@ -798,17 +798,17 @@ async function main() {
     }
 
     // ------------------------------------------------------------ 工作区过滤
-    section('按工作区过滤会话（小黑报的"harness 侧列了 110 条"问题）');
+    section('按工作区过滤会话（Harness报的"harness 侧列了 110 条"问题）');
     {
       let mockMulti2 = null;
       const multi = createMockBridge({
         sessions: [
-          { sessionId: 'sess_t1', externalSessionId: 'ext-t1', title: '小白的会话1', cwd: '%WORKSPACE_B%', metadata: { live: false } },
-          { sessionId: 'sess_t2', externalSessionId: 'ext-t2', title: '小白的会话2', cwd: '%WORKSPACE_B%', metadata: { live: false } },
-          { sessionId: 'sess_h1', externalSessionId: 'ext-h1', title: '小黑的会话', cwd: '%WORKSPACE_A%', metadata: { live: true } }
+          { sessionId: 'sess_t1', externalSessionId: 'ext-t1', title: 'Desktop的会话1', cwd: '%WORKSPACE_B%', metadata: { live: false } },
+          { sessionId: 'sess_t2', externalSessionId: 'ext-t2', title: 'Desktop的会话2', cwd: '%WORKSPACE_B%', metadata: { live: false } },
+          { sessionId: 'sess_h1', externalSessionId: 'ext-h1', title: 'Harness的会话', cwd: '%WORKSPACE_A%', metadata: { live: true } }
         ],
         items: [
-          item({ orderSeq: 1, type: 'message', role: 'assistant', content: { kind: 'markdown', text: '小黑这边的正文' } })
+          item({ orderSeq: 1, type: 'message', role: 'assistant', content: { kind: 'markdown', text: 'Harness这边的正文' } })
         ]
       });
       await multi.listen();
@@ -836,7 +836,7 @@ async function main() {
         );
         ok('默认选中的就是本工作区的那个', t.json.session.externalSessionId === 'ext-h1');
         ok('标了 workspaceFiltered / totalSessions', t.json.workspaceFiltered === true && t.json.totalSessions === 3 && t.json.workspace === '%WORKSPACE_A%');
-        ok('正文照常读到', t.json.items.some((i) => i.text === '小黑这边的正文'));
+        ok('正文照常读到', t.json.items.some((i) => i.text === 'Harness这边的正文'));
 
         const all = await api(srvM, '/api/timeline?side=harness&all=1&tail=10');
         ok('all=1 时给全部 3 条', all.json.sessions.length === 3 && all.json.workspaceFiltered === false);
@@ -866,7 +866,7 @@ async function main() {
             { sessionId: 's_old', externalSessionId: 'ext-old', title: '较早', cwd: '%WORKSPACE_A%', orderingTime: '2026-09-29T10:00:00Z', metadata: { live: true } },
             { sessionId: 's_new', externalSessionId: 'ext-new', title: '最近', cwd: '%WORKSPACE_A%', orderingTime: '2026-09-29T20:00:00Z', metadata: { live: true } },
             { sessionId: 's_mid', externalSessionId: 'ext-mid', title: '中间', cwd: '%WORKSPACE_A%', orderingTime: '2026-09-29T15:00:00Z', metadata: { live: true } },
-            // 手机端(v2)产生的会话：小黑的决定是"不隐藏、只标记"，kind 要原样透出来
+            // 手机端(v2)产生的会话：Harness的决定是"不隐藏、只标记"，kind 要原样透出来
             {
               sessionId: 's_phone',
               externalSessionId: 'aa_<id>',
@@ -971,7 +971,7 @@ async function main() {
     }
 
     // ------------------------------------------------------------ 样式契约
-    section('样式契约（style.css 归小黑；这里只核对"她必须覆盖我发出的类名"）');
+    section('样式契约（style.css 归Harness；这里只核对"她必须覆盖我发出的类名"）');
     {
       const cssPath = path.join(PUBLIC_DIR, 'style.css');
       const css = fs.readFileSync(cssPath, 'utf8');
@@ -1011,7 +1011,7 @@ async function main() {
       );
 
       // 身份牌条 + 任务检测行是我自己的样式块（index.html 里的 <style>），
-      // 只为不劳烦小黑改 style.css。但不能因此变成"没有样式"或"偷偷覆盖她的类名"——所以单独立一份契约。
+      // 只为不劳烦Harness改 style.css。但不能因此变成"没有样式"或"偷偷覆盖她的类名"——所以单独立一份契约。
       const ownStyle = (html.match(/<style>([\s\S]*?)<\/style>/) || [])[1] || '';
       const OWN_CLASSES = [
         'dp-identity', 'dp-cards', 'dp-toggle', 'dp-card', 'dp-name', 'dp-bits', 'dp-warn', 'dp-give',
@@ -1026,8 +1026,8 @@ async function main() {
       const ownAttrNeeds = ['[data-online', '[data-changed', '[data-collapsed', '[data-state'];
       const ownAttrMissing = ownAttrNeeds.filter((a) => !ownStyle.includes(a));
       ok('我自己那些 data-* 属性选择器都在', ownAttrMissing.length === 0, ownAttrMissing.join(', '));
-      // 末尾的 (?![\w-]) 很关键：否则 .act-line 会被当成"用了小黑的 .act"
-      ok('我这份样式块不碰小黑的类名（她那些类只在 style.css 里定义）',
+      // 末尾的 (?![\w-]) 很关键：否则 .act-line 会被当成"用了Harness的 .act"
+      ok('我这份样式块不碰Harness的类名（她那些类只在 style.css 里定义）',
         !/\.(pane|stream|composer|topbar|chip|msg|act|notice|dot|pill|ghost)(?![\w-])/.test(ownStyle),
         (ownStyle.match(/\.(pane|stream|composer|topbar|chip|msg|act|notice|dot|pill|ghost)(?![\w-])/g) || []).join(', '));
 
@@ -1040,15 +1040,15 @@ async function main() {
         for (const c of m[1].split(/\s+/)) if (c) emitted.add(c);
       }
       const drift = [...emitted].filter((c) => !REQUIRED_CLASSES.includes(c) && !OWN_CLASSES.includes(c));
-      ok('我发出的类名没有超出这份契约（超出就该同步给小黑）', drift.length === 0, drift.join(', '));
+      ok('我发出的类名没有超出这份契约（超出就该同步给Harness）', drift.length === 0, drift.join(', '));
 
-      // 浅色主题：小黑加了 prefers-color-scheme，确认不是只写了 media 却没写规则
+      // 浅色主题：Harness加了 prefers-color-scheme，确认不是只写了 media 却没写规则
       const lightBlocks = (css.match(/@media\s*\(prefers-color-scheme:\s*light\)/g) || []).length;
       ok('浅色主题有实际规则（不是空 @media）', lightBlocks === 0 || /@media\s*\(prefers-color-scheme:\s*light\)\s*\{[\s\S]{40,}/.test(css), `blocks=${lightBlocks}`);
     }
 
     // ------------------------------------------------------------ 主题三态
-    section('主题三态（按小黑定的 data-theme 协议）');
+    section('主题三态（按Harness定的 data-theme 协议）');
     {
       const themeSrc = fs.readFileSync(path.join(PUBLIC_DIR, 'theme.js'), 'utf8');
       const html = fs.readFileSync(path.join(PUBLIC_DIR, 'index.html'), 'utf8');
@@ -1166,7 +1166,7 @@ async function main() {
       ok('后端挂了会给出重启指引', /后端已停止/.test(appJs) && /start-app\.cmd/.test(appJs));
       ok('提示里带上日志路径（来自 /api/health）', /logPath/.test(appJs) && /loadBackendInfo/.test(appJs));
       const cssContract = fs.readFileSync(path.join(PUBLIC_DIR, 'style.css'), 'utf8');
-      ok('横幅只用已有类名 .chip（不新增类，样式归小黑）', /className = 'chip'/.test(appJs) && /\.chip/.test(cssContract));
+      ok('横幅只用已有类名 .chip（不新增类，样式归Harness）', /className = 'chip'/.test(appJs) && /\.chip/.test(cssContract));
     }
 
     // ------------------------------------------------------------ 用户文档
@@ -1208,7 +1208,7 @@ async function main() {
     }
 
     // ------------------------------------------------------------ 打包契约
-    section('打包契约（app/ 与 peer/ 必须平级 —— 小黑踩过的坑）');
+    section('打包契约（app/ 与 peer/ 必须平级 —— Harness踩过的坑）');
     {
       const walkAll = (dir) =>
         fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
@@ -1259,7 +1259,7 @@ async function main() {
       }
 
       // 打包契约：会进 exe 的那些文件，跨目录时只能依赖"平级的 peer/"
-      // （小黑 B1 踩过：只装 app 会 Cannot find module ...resources\peer\lib\bridge.js）
+      // （Harness B1 踩过：只装 app 会 Cannot find module ...resources\peer\lib\bridge.js）
       ok(`打进包的文件里，跨目录依赖只有平级 peer/（实测 ${shipped.length} 处）`,
         shipped.length > 0 && shipped.every((r) => r.to.replace(/\//g, '\\').startsWith('..\\peer\\')),
         JSON.stringify(shipped.map((r) => `${r.from} -> ${r.to}`)));
@@ -1269,7 +1269,7 @@ async function main() {
         console.log(`  NOTE  仅测试文件引用的跨目录路径（不影响打包）：${testOnly.map((r) => r.from).join(', ')}`);
       }
 
-      // 如果 exe 包在，直接检查里面的平级关系（小黑 B1 的产物）
+      // 如果 exe 包在，直接检查里面的平级关系（Harness B1 的产物）
       const packaged = path.join(APP_DIR, '..', 'desktop', 'out', 'DSH Pair', 'resources', 'pair');
       if (!fs.existsSync(packaged)) {
         console.log('  SKIP  没找到 exe 包（desktop\\out\\...\\resources\\pair），跳过打包结构检查');

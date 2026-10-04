@@ -1,7 +1,7 @@
 /*
- * theme.js —— 主题三态切换（协议见小黑定的那套）
+ * theme.js —— 主题三态切换（协议见Harness定的那套）
  * ---------------------------------------------------------------
- * 小黑的 CSS 已经覆盖三种情况（style.css 归她）：
+ * Harness的 CSS 已经覆盖三种情况（style.css 归她）：
  *   :root                      → 深色令牌（默认）
  *   :root[data-theme="dark"]   → 深色
  *   :root[data-theme="light"]  → 浅色

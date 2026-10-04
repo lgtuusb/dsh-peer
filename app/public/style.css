@@ -1,10 +1,10 @@
 /* ==========================================================================
    DSH 双实例对话 —— 视觉层
-   作者：小黑
+   作者：Harness
    约束：不新增/删除任何 class 或 data 属性，不改 DOM 结构，纯 CSS。
          所有选择器与原版一一对应，JS 侧零改动。
 
-   主题协议（与小白约定）：
+   主题协议（与Desktop约定）：
      无 data-theme        → 跟随系统 prefers-color-scheme
      data-theme="light"   → 强制浅色
      data-theme="dark"    → 强制深色
@@ -160,7 +160,7 @@
 
 /* 兜底：凡是被 JS 用 hidden 属性收起的元素都必须真的藏起来。
    自定义的 display（比如 .thinking 的 inline-flex）会盖掉浏览器默认的
-   [hidden]{display:none}，所以这里显式钉一条。这是小白契约测试抓出来的。 */
+   [hidden]{display:none}，所以这里显式钉一条。这是Desktop契约测试抓出来的。 */
 [hidden] { display: none !important; }
 
 html, body { height: 100%; margin: 0; }

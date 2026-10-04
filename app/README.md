@@ -65,7 +65,7 @@ node server.js --port 8787 --sides %REPO%\app\sides.json
   - `source.kind` 是 `runtime-context` / `skill-catalog` 的"假 user 消息"（DSH 自己注入的）不显示；
   - `turn.end` 只在 `content.reason.kind` 不是 `completed` 时显示成一条黄色提示 ——
     因为**回合被权限挡下时会静默结束**（消息进了 inbox 但 agent 一步没动，界面上什么都看不到，
-    小黑正好踩过这个坑）。提示里会点出"可能是权限预设需要审批"。
+    Harness正好踩过这个坑）。提示里会点出"可能是权限预设需要审批"。
 - **会话按工作区过滤**：两个 App 的 sessions 目录是**同一份**（junction），所以 Harness 侧的
   `session.list` 会把 Desktop 的会话也列出来（实测 110 条 vs 1 条）。程序按每侧配置里的
   `workspace` 过滤（Harness → `%WORKSPACE_A%`），点栏头那个开关可以临时看全部；过滤后为空会退回全部

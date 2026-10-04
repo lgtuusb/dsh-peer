@@ -67,7 +67,7 @@ start "" "C:\Program Files\DeepSeek Harness\DeepSeek Harness.exe"
 
 ### 4. 给两个实例起名字
 
-在各自的会话里说清楚就行，比如"你叫小白"。名字只是个约定，不是程序功能。
+在各自的会话里说清楚就行，比如"你叫Desktop"。名字只是个约定，不是程序功能。
 
 ---
 

@@ -194,7 +194,7 @@ node peer.js watch  [--session <id>]             # 订阅事件流实时打印�
 ## 5. 验收标准（Harness 来跑，逐条对照）
 
 1. `node peer/peer.js status` 退出码 0，输出里 `identity.runtime === "dsh"`，且能力表里 `session.send_message.allowed === true`。
-2. `node peer/peer.js list --json` 能列出 `session-<id>`（标题「两个agent协作贪吃蛇分工」）。
+2. `node peer/peer.js list --json` 能列出 `session-<id>`（标题「两个agent协作(早期试验项目)分工」）。
 3. **端到端**：Harness 用 `send --text-file <一句中文> --wait --json` 给 Desktop 发一条消息，
     Desktop 那一轮正常跑完，命令退出码 0，stdout 的 JSON 里 `ok:true` 且 `reply` 是 Desktop 的**实际回复正文**。
 4. DSH Desktop 重启后（port/token 变化），同一条命令**无需任何手工参数**仍然能用 → 证明每次重读 endpoint.json。

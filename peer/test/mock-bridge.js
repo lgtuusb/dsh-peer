@@ -236,7 +236,7 @@ function createMockBridge(options) {
         return;
       }
 
-      // 会话体积/最后写入时间。小黑那边真机上是从共享的会话库里 stat 出来的。
+      // 会话体积/最后写入时间。Harness那边真机上是从共享的会话库里 stat 出来的。
       case 'session.meta': {
         const want = (params && params.ids) || [];
         state.metaCalls.push(want.slice());

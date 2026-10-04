@@ -2,13 +2,13 @@
  * lib/sessionfilter.js —— 会话列表"去垃圾"过滤（两侧行为一致）
  * ---------------------------------------------------------------
  * 背景：两侧的 session.list 来源不同 ——
- *   - 小黑侧：她的插件，自己已经过滤过（4 个）
- *   - 小白侧：DSH 自带官方桥，**不过滤**（103 个）
+ *   - Harness侧：她的插件，自己已经过滤过（4 个）
+ *   - Desktop侧：DSH 自带官方桥，**不过滤**（103 个）
  * 官方桥返回的字段里没有 size，App 光靠它判断不出哪个是空壳。
  *
- * 关键洞察（小黑给的）：**会话库是共享的**（%DSH_HOME%\sessions 是指向
+ * 关键洞察（Harness给的）：**会话库是共享的**（%DSH_HOME%\sessions 是指向
  * C:\Users\user\.dsh\sessions 的 junction），所以任意一侧的 bridge 插件都能算出
- * **任意会话**的真实体积和最后写入时间。小黑为此加了 `session.meta` 方法：
+ * **任意会话**的真实体积和最后写入时间。Harness为此加了 `session.meta` 方法：
  *   params { ids: [...] }  →  { meta: { "<id>": { bytes, lastWrite } } }
  *
  * 所以过滤放在 App 后端做：两侧一致，以后调阈值只改一处。
@@ -142,7 +142,7 @@ function filterByMeta(sessions, meta, opts) {
 /**
  * `session.meta` 的取用器。
  *
- * 先问"自己那侧"，再问其它侧 —— 因为会话库共享，谁都能算。这样不写死"小黑侧"，
+ * 先问"自己那侧"，再问其它侧 —— 因为会话库共享，谁都能算。这样不写死"Harness侧"，
  * 以后哪一侧先实现都能用。
  */
 function createMetaLoader(opts) {
