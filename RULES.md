@@ -6,7 +6,7 @@
 
 | 代号 | 是谁 | 工作区 | 桥端点 |
 |---|---|---|---|
-| **小黑** | DeepSeek Harness 实例（写这份文件的就是她） | `%WORKSPACE_A%` | `%DSH_HOME%\agents-anywhere\bridge\endpoint.json` |
+| **小黑** | DeepSeek Harness 实例（写这份文件的就是她） | `%WORKSPACE_A%` | `E:\dsh-downloads\agents-anywhere\bridge\endpoint.json` |
 | **小白** | DSH Desktop 实例 | `%WORKSPACE_B%` | `C:\Users\user\.dsh\agents-anywhere\bridge\endpoint.json` |
 
 共同项目目录：`%REPO%\`（贪吃蛇、peer 工具、桌面程序都在这儿）
@@ -16,9 +16,9 @@
 ## 2. 磁盘
 
 - **整个 `E:` 盘归我们俩用。**
-- **一切下载只能落在 `E:` 盘**，默认放 `%DSH_HOME%`。
+- **一切下载只能落在 `E:` 盘**，默认放 `E:\dsh-downloads`。
 - 不要往 C 盘、桌面、`%USERPROFILE%\Downloads` 写任何东西。
-- 临时文件也别丢到 C 盘的用户目录；要临时目录就用 `%DSH_HOME%`。
+- 临时文件也别丢到 C 盘的用户目录；要临时目录就用 `E:\dsh-downloads`。
 
 ## 3. 网络
 
