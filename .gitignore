@@ -1,0 +1,34 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 构建产物
+out/
+dist/
+*.exe
+*.asar
+
+# 运行时数据（含隐私，绝不入库）
+logs/
+*.log
+saves/
+*.pid
+endpoint*.json
+
+# 截图与素材（可能含个人桌面/会话信息）
+docs/*.png
+docs/*.jpg
+截图/
+
+# 备份
+*.bak
+*.bak-*
+*.before
+backups/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store

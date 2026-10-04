@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <link rel="icon" href="/favicon.ico">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DSH 双实例对话</title>
+  <!-- theme.js 必须在样式表之前跑：它只往 <html> 写 data-theme，避免浅/深色闪一下 -->
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/style.css" />
+  <!--
+    身份牌条的样式。**只用 dp- 前缀，且只引用 style.css 已有的 CSS 变量** ——
+    style.css 归小黑，这里不碰它（BOARD 的归属表）。要改视觉找她。
+  -->
+  <style>
+    .dp-identity { display: flex; align-items: center; gap: 8px; padding: 0 18px 10px; min-width: 0; }
+    .dp-identity[hidden] { display: none; }
+    .dp-cards { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+    /* 收起时只留开关那一行，别占一整行（用户提的） */
+    .dp-identity[data-collapsed="true"] .dp-cards { display: none; }
+    .dp-toggle {
+      flex: none; cursor: pointer;
+      font: 12px/1.4 var(--font, system-ui);
+      color: var(--text-dim, #a2b3c6);
+      background: var(--surface-sub, rgba(12, 19, 28, 0.6));
+      border: 1px solid var(--line, rgba(125, 155, 195, 0.13));
+      border-radius: var(--radius-sm, 9px);
+      padding: 6px 10px;
+    }
+    .dp-toggle:hover { border-color: var(--line-strong, rgba(125, 155, 195, 0.26)); }
+    .dp-card {
+      display: flex; align-items: center; gap: 8px; min-width: 0;
+      font: 12px/1.4 var(--font, system-ui);
+      color: var(--text-dim, #a2b3c6);
+      background: var(--surface-sub, rgba(12, 19, 28, 0.6));
+      border: 1px solid var(--line, rgba(125, 155, 195, 0.13));
+      border-radius: var(--radius-sm, 9px);
+      padding: 6px 10px;
+    }
+    .dp-card[data-online="false"] { opacity: 0.6; }
+    .dp-card[data-changed="true"] {
+      border-color: var(--run-bd, rgba(251, 191, 36, 0.35));
+      background: var(--run-bg, rgba(251, 191, 36, 0.12));
+    }
+    .dp-name { color: var(--text, #e9eff7); font-weight: 600; }
+    .dp-bits { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .dp-warn { color: var(--run-fg, #ffd591); }
+    .dp-give { font-size: 12px; padding: 2px 8px; }
+
+    /* 任务检测：跑动中的那一行 */
+    .act-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .act-line[data-state="running"] { color: var(--run-fg, #ffd591); }
+    .act-line[data-state="idle"] { color: var(--idle-fg, #9fe3bd); }
+    .act-step { font-weight: 600; }
+    .act-what { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">⇄</span>
+      <span class="brand-text">DSH 双实例对话</span>
+    </div>
+    <div class="top-status" id="top-status"></div>
+    <div class="top-actions">
+      <button class="ghost" id="theme-btn" type="button">主题：跟随系统</button>
+      <button class="ghost" id="refresh-btn" type="button">刷新会话</button>
+    </div>
+  </header>
+
+  <!-- 身份牌条：两侧"我是谁 / 在哪 / 当前在哪个会话"。可收起（状态记在 localStorage） -->
+  <section class="dp-identity" id="identity-bar" aria-label="身份牌" hidden>
+    <button class="dp-toggle" id="identity-toggle" type="button" aria-expanded="true">身份牌 ▾</button>
+    <div class="dp-cards" id="identity-cards"></div>
+  </section>
+
+  <main class="panes" id="panes"></main>
+
+  <footer class="composer">
+    <div class="targets" id="targets" role="group" aria-label="发给谁"></div>
+    <div class="composer-row">
+      <textarea id="input" rows="2" placeholder="写点什么…（Enter 发送，Shift+Enter 换行）"></textarea>
+      <button class="primary" id="send-btn" type="button">发送</button>
+    </div>
+    <div class="composer-hint" id="composer-hint"></div>
+  </footer>
+
+  <script>
+    // 本次运行的令牌，由 server.js 注入（只替换 __PAIR_TOKEN_VALUE__ 这个占位符，
+    // 不能把左边的 window.__PAIR_TOKEN__ 也替换掉，否则前端拿到的就是 undefined）。
+    window.__PAIR_TOKEN__ = '__PAIR_TOKEN_VALUE__';
+  </script>
+  <script src="/app.js"></script>
+</body>
+</html>
