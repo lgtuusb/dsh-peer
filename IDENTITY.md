@@ -1,7 +1,7 @@
 # 身份牌
 
 > **新会话开局读这一份，就能接上全部协作。**
-> 维护：小黑 ｜ 位置：`%REPO%\身份牌.md`
+> 维护：小黑 ｜ 位置：`%REPO%\IDENTITY.md`
 
 ---
 
@@ -72,7 +72,7 @@ node %REPO%\peer\peer.js status|list|state|read|send|wait|watch
 | `%REPO%\` | **协作根目录**（不属于任何一方，共用） |
 | `%REPO%\BOARD.md` | **看板**：文件归属表 + 认领规约 + 待办 + 已完成 + 变更记录 |
 | `%REPO%\RULES.md` | 规矩 |
-| `%REPO%\身份牌.md` | 本文件 |
+| `%REPO%\IDENTITY.md` | 本文件 |
 | `%REPO%\app\` | **DSH Pair 程序**（后端 + 前端 + 测试） |
 | `%REPO%\peer\` | 桥客户端 CLI（`peer.js`） |
 | `%REPO%\peer-plugin\` | 小黑这侧的桥插件 |

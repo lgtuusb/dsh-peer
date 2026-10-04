@@ -35,7 +35,7 @@ peer-plugin/     给对方实例装的插件：暴露一个本地 JSON-RPC 端�
 peer/            命令行客户端（状态 / 读时间线 / 发消息 / 等待）
 app/             双栏对话程序（后端 + 前端 + 测试）
 desktop/         Electron 打包壳（把 app 做成独立 exe）
-身份牌.md         新会话开局读这一份就能接上协作
+IDENTITY.md         新会话开局读这一份就能接上协作
 RULES.md         协作规矩
 BOARD.md         共享看板模板（文件归属 + 认领 + 变更记录）
 ROADMAP.md       路线

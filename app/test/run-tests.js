@@ -1172,8 +1172,8 @@ async function main() {
     // ------------------------------------------------------------ 用户文档
     section('面向用户的交付文档（B2）');
     {
-      const guidePath = path.join(APP_DIR, '使用说明.md');
-      ok('使用说明.md 存在', fs.existsSync(guidePath), guidePath);
+      const guidePath = path.join(APP_DIR, 'USAGE.md');
+      ok('USAGE.md 存在', fs.existsSync(guidePath), guidePath);
       const guide = fs.readFileSync(guidePath, 'utf8');
 
       const mustHave = [
