@@ -7,7 +7,7 @@
  *   declare dependencies, bust the CommonJS cache, and hand off to impl.cjs.
  *   From now on, edit impl.cjs only, then re-mount the plugin -- no app restart.
  *
- * Re-mount helper: E:\dsh-1\tools\reload-plugin.ps1
+ * Re-mount helper: %WORKSPACE_A%\tools\reload-plugin.ps1
  */
 
 import { createRequire } from 'node:module'

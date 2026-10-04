@@ -6,7 +6,7 @@
  *   - 小白侧：DSH 自带官方桥，**不过滤**（103 个）
  * 官方桥返回的字段里没有 size，App 光靠它判断不出哪个是空壳。
  *
- * 关键洞察（小黑给的）：**会话库是共享的**（E:\dsh-home-2\sessions 是指向
+ * 关键洞察（小黑给的）：**会话库是共享的**（%DSH_HOME%\sessions 是指向
  * C:\Users\user\.dsh\sessions 的 junction），所以任意一侧的 bridge 插件都能算出
  * **任意会话**的真实体积和最后写入时间。小黑为此加了 `session.meta` 方法：
  *   params { ids: [...] }  →  { meta: { "<id>": { bytes, lastWrite } } }

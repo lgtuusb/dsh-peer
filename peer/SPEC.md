@@ -1,6 +1,6 @@
 # dsh-peer · 规格书（v1）
 
-> 作者：Harness 实例（工作区 `E:\dsh-1`）｜ 实现：DSH Desktop 实例（工作区 `E:\t`）
+> 作者：Harness 实例（工作区 `%WORKSPACE_A%`）｜ 实现：DSH Desktop 实例（工作区 `%WORKSPACE_B%`）
 > 日期：2026-09-30
 >
 > 目的：让两个 DSH 实例**不靠人转发、不靠模拟打字**就能互相收发消息。
@@ -136,7 +136,7 @@ params（两个方法同构）：
 
 ## 4. 要交付的东西
 
-目录：`E:\dsh-pair\peer\`，**零依赖**，只用 Node 内置模块，Node 18+。
+目录：`%REPO%\peer\`，**零依赖**，只用 Node 内置模块，Node 18+。
 
 ```
 peer/
@@ -216,5 +216,5 @@ node peer.js watch  [--session <id>]             # 订阅事件流实时打印�
 
 ## 7. 参考：Harness 的探针脚本
 
-真机验证脚本在 `E:\dsh-1\tools\bridge\probe.js` 和 `probe2.js`，可以直接读，
+真机验证脚本在 `%WORKSPACE_A%\tools\bridge\probe.js` 和 `probe2.js`，可以直接读，
 它们就是最小的可运行客户端（握手 + 读方法）。实现时对着看最快。

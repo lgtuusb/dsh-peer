@@ -1,7 +1,7 @@
 # dsh-pair —— 一个窗口里同时跟两个 DSH 实例对话
 
-零依赖 Node 后端 + 单页前端。左边一栏 DSH Desktop（工作区 `E:\t`），右边一栏 DeepSeek Harness
-（工作区 `E:\dsh-1`）；输入框可以只发给某一边，也可以两边都发。
+零依赖 Node 后端 + 单页前端。左边一栏 DSH Desktop（工作区 `%WORKSPACE_B%`），右边一栏 DeepSeek Harness
+（工作区 `%WORKSPACE_A%`）；输入框可以只发给某一边，也可以两边都发。
 
 ## 怎么打开
 
@@ -48,9 +48,9 @@
 想手动跑（看得到日志）：
 
 ```powershell
-cd E:\dsh-pair\app
+cd %REPO%\app
 node server.js --port 8787                 # 用默认两侧
-node server.js --port 8787 --sides E:\dsh-pair\app\sides.json
+node server.js --port 8787 --sides %REPO%\app\sides.json
 ```
 
 > 脚本里想传端口给启动器时，用**带引号**的写法：`set "PORT=8787" && start.cmd`。
@@ -68,7 +68,7 @@ node server.js --port 8787 --sides E:\dsh-pair\app\sides.json
     小黑正好踩过这个坑）。提示里会点出"可能是权限预设需要审批"。
 - **会话按工作区过滤**：两个 App 的 sessions 目录是**同一份**（junction），所以 Harness 侧的
   `session.list` 会把 Desktop 的会话也列出来（实测 110 条 vs 1 条）。程序按每侧配置里的
-  `workspace` 过滤（Harness → `E:\dsh-1`），点栏头那个开关可以临时看全部；过滤后为空会退回全部
+  `workspace` 过滤（Harness → `%WORKSPACE_A%`），点栏头那个开关可以临时看全部；过滤后为空会退回全部
   （不会让界面变成"一个会话都没有"），手动选了别的工作区的会话也会标注出来。
 - **状态**：`空闲` / `正在跑`（点点会呼吸）/ `离线`。这就是 `session.getState` 的 `status`。
   正在跑时消息列表底部会出现"正在思考…"。
@@ -110,8 +110,8 @@ node server.js --port 8787 --sides E:\dsh-pair\app\sides.json
 
 | id | 标签 | endpoint.json |
 | --- | --- | --- |
-| `desktop` | DSH Desktop（`E:\t`） | `%USERPROFILE%\.dsh\agents-anywhere\bridge\endpoint.json` |
-| `harness` | DeepSeek Harness（`E:\dsh-1`） | `E:\dsh-home-2\agents-anywhere\bridge\endpoint.json` |
+| `desktop` | DSH Desktop（`%WORKSPACE_B%`） | `%USERPROFILE%\.dsh\agents-anywhere\bridge\endpoint.json` |
+| `harness` | DeepSeek Harness（`%WORKSPACE_A%`） | `%DSH_HOME%\agents-anywhere\bridge\endpoint.json` |
 
 覆盖用文件长这样：
 
@@ -133,7 +133,7 @@ node server.js --port 8787 --sides E:\dsh-pair\app\sides.json
 ## 测试
 
 ```powershell
-cd E:\dsh-pair\app
+cd %REPO%\app
 node test\run-tests.js        # 主套件（后端接口 / 前端契约 / 主题 / 日志 / 文档 / 打包契约）
 node test\stop-test.js        # 停止与看门狗的隔离测试（会起副本目录，单独跑）
 ```

@@ -1,6 +1,6 @@
 # HANDOFF · 渲染侧（index.html + src/render.js + src/style.css）
 
-写给搭档（workspace `E:\dsh-1` 那个实例）。方案我同意，文件已经写完并自测通过。
+写给搭档（workspace `%WORKSPACE_A%` 那个实例）。方案我同意，文件已经写完并自测通过。
 下面是**必须回传给你的两条接口修正**，以及联调前你需要知道的东西。
 
 ## 1. 两条接口修正（硬约束，engine.js 必须照这个写）
@@ -53,7 +53,7 @@ tick(ms) = max(60, 150 - (level - 1) * 12)
 ## 4. 怎么验证
 
 ```powershell
-cd E:\dsh-pair
+cd %REPO%
 node tests\render-smoke.mjs          # 14 项：时钟 / 输入 / HUD / 重开 / 只读 state / 缺 engine 的降级
 ```
 
@@ -61,7 +61,7 @@ node tests\render-smoke.mjs          # 14 项：时钟 / 输入 / HUD / 重开 /
   `tests\_browser\index.html`，里面用的是真的 style.css / render.js，只有 engine 是替身；
   `tests\_browser\proof-play.png` 是 headless 截图证据（蛇已拐弯、眼睛朝下）。
   那个页面里的 rAF→setTimeout shim 只在 headless 下需要，真机不要加。
-- 目前双击 `E:\dsh-pair\index.html` 会看到"无法启动：缺少 src/engine.js"——这是有意的降级提示，
+- 目前双击 `%REPO%\index.html` 会看到"无法启动：缺少 src/engine.js"——这是有意的降级提示，
   等你的 engine.js 落地就正常了。
 
 ## 5. 归你联调时的入口

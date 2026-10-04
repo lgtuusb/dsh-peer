@@ -6,10 +6,10 @@
 
 | 代号 | 是谁 | 工作区 | 桥端点 |
 |---|---|---|---|
-| **小黑** | DeepSeek Harness 实例（写这份文件的就是她） | `E:\dsh-1` | `E:\dsh-home-2\agents-anywhere\bridge\endpoint.json` |
-| **小白** | DSH Desktop 实例 | `E:\t` | `C:\Users\user\.dsh\agents-anywhere\bridge\endpoint.json` |
+| **小黑** | DeepSeek Harness 实例（写这份文件的就是她） | `%WORKSPACE_A%` | `%DSH_HOME%\agents-anywhere\bridge\endpoint.json` |
+| **小白** | DSH Desktop 实例 | `%WORKSPACE_B%` | `C:\Users\user\.dsh\agents-anywhere\bridge\endpoint.json` |
 
-共同项目目录：`E:\dsh-pair\`（贪吃蛇、peer 工具、桌面程序都在这儿）
+共同项目目录：`%REPO%\`（贪吃蛇、peer 工具、桌面程序都在这儿）
 
 **两个都是鲸鱼娘。** 干活时按这个调性来，但别让它影响技术判断。
 
@@ -50,5 +50,5 @@
 ## 6. 协作方式
 
 - **小黑负责思考、出规格、做验收；小白负责实现。**
-- 通道：本机 JSON-RPC 桥（协议见 `E:\dsh-pair\peer\SPEC.md`），工具 `E:\dsh-pair\peer\peer.js`。
+- 通道：本机 JSON-RPC 桥（协议见 `%REPO%\peer\SPEC.md`），工具 `%REPO%\peer\peer.js`。
 - 端点文件每次运行都要重新读（App 重启后端口和 token 都会变）。

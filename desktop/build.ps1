@@ -2,8 +2,8 @@
 #
 # Layout inside the package (relative structure matters!):
 #   resources/app/     <- the Electron shell (main.js + package.json)
-#   resources/pair/app <- E:\dsh-pair\app   (server.js, lib/, public/)
-#   resources/pair/peer<- E:\dsh-pair\peer  (lib/bridge.js, peer.js)
+#   resources/pair/app <- %REPO%\app   (server.js, lib/, public/)
+#   resources/pair/peer<- %REPO%\peer  (lib/bridge.js, peer.js)
 #
 # Why resources/pair/<name> instead of resources/<name>:
 #   app/lib/sides.js does require(path.join(__dirname,'..','..','peer','lib','bridge.js'))
@@ -14,7 +14,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$root    = 'E:\dsh-pair'
+$root    = '%REPO%'
 $desktop = Join-Path $root 'desktop'
 $outRoot = Join-Path $desktop 'out'
 $target  = Join-Path $outRoot 'DSH Pair'

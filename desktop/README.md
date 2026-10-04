@@ -6,7 +6,7 @@
 ## 怎么构建
 
 ```powershell
-cd E:\dsh-pair\desktop
+cd %REPO%\desktop
 npm install                 # 只装 electron（唯一依赖）
 node node_modules\electron\install.js   # 若 npm 跳过了二进制下载，手动补
 powershell -ExecutionPolicy Bypass -File build.ps1

@@ -29,7 +29,7 @@ const DEFAULT_SIDES = [
     label: '小白',
     workspace: '%WORKSPACE_B%',
     // DSH_HOME 用于身份牌显示（"我是谁、家在哪"）。
-    // 注意 E:\dsh-home-2 只是个壳：它的 sessions/profiles/... 全是指向这个目录的 junction。
+    // 注意 %DSH_HOME% 只是个壳：它的 sessions/profiles/... 全是指向这个目录的 junction。
     dshHome: path.join(os.homedir(), '.dsh'),
     role: '实现、测试、启动器、前端行为',
     endpointPath: path.join(os.homedir(), '.dsh', 'agents-anywhere', 'bridge', 'endpoint.json')

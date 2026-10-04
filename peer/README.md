@@ -7,14 +7,14 @@
 - CLI：`peer.js`（命令、会话选择、等待回合结束、输出）
 - 规格来源：`SPEC.md`（搭档写的，含真机抓包事实）
 
-> 不碰 `E:\dsh-1\tools\bridge\` 下的探针——那是搭档的文件。
+> 不碰 `%WORKSPACE_A%\tools\bridge\` 下的探针——那是搭档的文件。
 
 ---
 
 ## 快速开始
 
 ```powershell
-cd E:\dsh-pair\peer
+cd %REPO%\peer
 
 node peer.js status                    # 握手成功？能力表里 send_message 允许吗？
 node peer.js list --json               # 有哪些会话（找 externalSessionId）
@@ -38,7 +38,7 @@ node peer.js send --session session-<id> --text-file msg.txt --wait --json
 
 ```powershell
 # PowerShell
-$r = node E:\dsh-pair\peer\peer.js send --session $ext --text-file .\q.txt --wait --json | ConvertFrom-Json
+$r = node %REPO%\peer\peer.js send --session $ext --text-file .\q.txt --wait --json | ConvertFrom-Json
 if ($LASTEXITCODE -ne 0) { throw "发送失败" }
 $r.reply
 ```
@@ -121,7 +121,7 @@ printf '%s\n' "$reply"
 ## 测试
 
 ```powershell
-cd E:\dsh-pair\peer
+cd %REPO%\peer
 node test\run-tests.js
 ```
 
