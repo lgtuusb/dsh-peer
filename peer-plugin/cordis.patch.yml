@@ -1,0 +1,8 @@
+# dsh-peer-bridge —— 本机 JSON-RPC 端点
+#
+# 只挂一个宿主端服务：在 127.0.0.1 上开一个带 token 的 JSON-RPC 服务，
+# 并把端口和 token 写进 $DSH_HOME/agents-anywhere/bridge/endpoint.json。
+# 不注入任何客户端 UI，因此不需要 client 段。
+- insert:
+    - id: dsh-peer-bridge
+      name: 'dsh-peer-bridge'

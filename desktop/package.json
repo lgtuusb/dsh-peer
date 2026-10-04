@@ -1,0 +1,14 @@
+{
+  "name": "dsh-pair-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DSH Pair as a real desktop app: an Electron shell around the local dsh-pair server.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . \"DSH Pair\" --platform=win32 --arch=x64 --out=out --overwrite --icon=icon.ico"
+  },
+  "devDependencies": {
+    "electron": "^44.5.0"
+  }
+}

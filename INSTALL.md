@@ -1,0 +1,195 @@
+# 安装与使用
+
+> 目标：在本机跑起**两个互相独立的 AI 实例**，并让它们能互相说话。
+
+---
+
+## 一、先搞懂"两个实例"是怎么回事
+
+**不需要装两份程序。** 隔离靠的是一个环境变量：**`DSH_HOME`**。
+
+```
+DSH_HOME = 这个实例的全部家当
+           ├─ .credentials.yaml   它的 API key
+           ├─ sessions/           它的会话历史
+           ├─ profiles/           它的插件与设置
+           └─ agents-anywhere/    它的桥端点
+
+同一个程序，启动两次，各给一个不同的 DSH_HOME
+        ↓
+就是两个完全独立的实例：互不知道对方、各有各的 key 和历史
+```
+
+### 优势就在这里
+
+| | 单实例开分身 | 本项目（两个 DSH_HOME） |
+|---|---|---|
+| API key | 共用 | **各用各的（也可以故意用同一个）** |
+| 会话历史 | 混在一起 | **完全分开** |
+| 插件 | 共用 | **各自装各自的** |
+| 一个崩了 | 全崩 | **另一个照常跑** |
+
+---
+
+## 二、装第一个实例
+
+1. 装 DSH（官方安装包，装到默认位置）
+2. 启动一次，登录 / 填 API key
+3. 默认家当在 `%USERPROFILE%\.dsh`
+
+**这个实例就是你的"甲方"。**
+
+---
+
+## 三、造第二个实例
+
+### 1. 建一个独立的 home 目录
+
+```cmd
+mkdir D:\dsh-home-b
+```
+
+### 2. 写一个启动脚本 `launch-b.cmd`
+
+```cmd
+@echo off
+rem 用独立的 DSH_HOME，让这个实例有自己的 API key 和会话历史
+set "DSH_HOME=D:\dsh-home-b"
+start "" "C:\Program Files\DeepSeek Harness\DeepSeek Harness.exe"
+```
+
+> 把最后那行换成你实际的程序路径。
+
+### 3. 双击它，然后填第二把 API key
+
+- **想用同一把 key** → 直接把 `%USERPROFILE%\.dsh\.credentials.yaml` 复制过去
+- **想用另一把 key**（推荐，能分别计费/限流）→ 启动后重新填
+
+### 4. 给两个实例起名字
+
+在各自的会话里说清楚就行，比如"你叫Desktop"。名字只是个约定，不是程序功能。
+
+---
+
+## 四、给两边都装桥插件
+
+**这一步必须在两个实例上都做**，否则只有一边能收发。
+
+### 1. 把插件放进 profile
+
+```cmd
+mkdir "%DSH_HOME%\profiles\desktop\node_modules\dsh-peer-bridge"
+xcopy /E /I peer-plugin\* "%DSH_HOME%\profiles\desktop\node_modules\dsh-peer-bridge\"
+```
+
+### 2. 在 profile 配置里注册它
+
+编辑 `%DSH_HOME%\profiles\desktop\cordis.patch.yml`，在**文件末尾**追加：
+
+```yaml
+- insert:
+    - id: dsh-peer-bridge
+      name: 'dsh-peer-bridge'
+```
+
+### 3. 重启该实例
+
+插件只在启动时加载。**装完必须重启**。
+
+### 4. 验证
+
+```cmd
+dir "%DSH_HOME%\agents-anywhere\bridge\endpoint.peer.json"
+```
+
+看到这个文件 = 插件起来了。内容长这样：
+
+```json
+{"version":1,"host":"127.0.0.1","port":54321,"token":"...","pid":12345}
+```
+
+> ⚠️ **端口和 token 每次重启都会变**，所以客户端永远从文件读，不要写死。
+
+---
+
+## 五、让它们说上话
+
+### 方式 A：命令行（最省事，先验证通路）
+
+```cmd
+rem 看对方状态
+node peer\peer.js state --endpoint "%DSH_HOME_B%\agents-anywhere\bridge\endpoint.peer.json" --json
+
+rem 读对方最近 10 条
+node peer\peer.js read --endpoint <对方端点文件> --tail 10
+
+rem 发一条并等回复
+node peer\peer.js send --endpoint <对方端点文件> --text-file msg.txt --wait
+```
+
+**先跑通这个，再上界面。**
+
+### 方式 B：双栏界面
+
+```cmd
+cd app
+node server.js --port 8787
+```
+
+浏览器开 `http://127.0.0.1:8787/`，两边并排，可以分别发消息、看时间线。
+
+---
+
+## 六、让"新会话"能认出对方（重要）
+
+程序装好了，但**新开的会话是不知道对方存在的** —— AI 没有跨会话记忆，也没有自动发现机制。
+
+解决办法：**身份牌**。
+
+1. 把 `IDENTITY.md` 里的路径、名字改成你自己的
+2. 每次开新会话，第一句话就给它：
+
+```
+读 <你的路径>\IDENTITY.md
+```
+
+它读完就知道：自己是谁、对方是谁、在哪个工作区、桥端点在哪个文件、怎么回信。
+
+> 这一条是整个项目里最实用的部分。没有它，每次开新会话都要重新解释一遍。
+
+---
+
+## 七、协作规约（可选，但强烈建议）
+
+两个 AI 改同一批文件**一定会互相踩**。建议自建一份共享看板：
+
+- **文件归属表**：谁管哪些文件
+- **认领制**：动手前先在看板写上自己的名字
+- **实现者 / 复验者分离**：谁写的，对方验；不许自己顺手改对方的实现
+- **变更记录**：谁在什么时候改了什么、为什么
+
+把它放在两个实例都能读到的路径下，并让它们每次开工前先看。
+
+---
+
+## 八、常见坑
+
+| 现象 | 原因 | 解法 |
+|---|---|---|
+| 对方"离线" | 端点文件是旧的 | 重启后端口会变，重新读端点文件 |
+| 发过去的消息没人回 | 装插件的那一侧没重启 | 重启该实例 |
+| 新建会话报错 | 官方桥不支持新建 | 用本项目的插件端点（`endpoint.peer.json`），不要用官方端点 |
+| 两个实例抢同一个端点文件 | 插件和官方桥都写 `endpoint.json` | 本插件写的是 `endpoint.peer.json`，客户端读这个 |
+| 消息投进了错的会话 | 客户端按"创建时间"排序，空会话排最前 | 按**会话文件的写入时间**排序（见 `app/lib/sessionfilter.js`） |
+
+---
+
+## 九、最小可用清单
+
+想最快跑通，只需要：
+
+1. 一个 DSH，两个 `DSH_HOME`
+2. `peer-plugin/` 装到两边 + 各自重启
+3. `peer/peer.js` 发一条消息，收到回复
+
+**这三步通了，剩下的都是锦上添花。**

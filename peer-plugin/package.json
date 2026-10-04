@@ -1,0 +1,33 @@
+{
+  "name": "dsh-peer-bridge",
+  "version": "1.0.0",
+  "description": "Loopback JSON-RPC bridge so external programs (or another DSH instance) can send messages to this DSH instance and read its replies. Protocol-compatible subset of @agents-anywhere/dsh-bridge-next.",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "files": [
+    "index.js",
+    "impl.cjs",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "plugin",
+    "bridge",
+    "json-rpc"
+  ],
+  "license": "MIT"
+}
